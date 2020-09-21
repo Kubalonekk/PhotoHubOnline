@@ -1,0 +1,64 @@
+{% extends 'PhotoHubAPP/base.html' %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+
+{% load crispy_forms_tags %}
+<head>
+<link href="{% static 'css/post.css' %}" rel="stylesheet">
+</head>
+<br><br><br>
+<div class='container'>
+</nav>
+{% if messages %}
+<br>
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+<br><br><br>
+<div class="table-responsive text-nowrap">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Imię</th>
+        <th scope="col">Nazwisko</th>
+        <th scope="col">Data wysłania</th>
+        {% if request.user.userprofile.ukryty == True %}
+		    <th scope="col">Follow</th>
+        {% else %}
+        <th scope="col">Usuń powiadomienie</th>
+        {% endif %}
+
+		
+
+      </tr>
+    </thead>
+    <tbody>
+ {% comment %} {{request.user.userprofile.obserwowani_set.all }} {% endcomment %}
+
+    {% for profile in followers %}
+    
+      <tr>
+        <th scope="row">{{ profile.obserwujacy.imie }}</th> 
+        <td>{{ profile.obserwujacy.nazwisko }}</td>
+        {% language 'pl' %}
+        <td>{{ profile.data_stworzenia }}</td>
+        {% endlanguage %}
+    {% if request.user.userprofile.ukryty == True%}
+		<td><a href="{% url 'zgoda' profile.id %}"><button type="button" class="btn btn-info">Akceptuj</button></a></td>
+    <td><a href="{% url 'odrzucenie_prosby' profile.id %}"><button type="button" class="btn btn-danger"><i class="far fa-minus-square red"></i></button></a></td>
+    {% else %}
+    <td><a href="{% url 'usun_powiadomienie' profile.obserwacja.id %}">   <i class="fas fa-eye"></i></a></td> 
+    {% endif %}
+    
+		{% endfor %}
+    
+</div>
+
+
+{% endblock %}

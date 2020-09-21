@@ -1,0 +1,76 @@
+{% extends 'PhotoHubAPP/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+{% load crispy_forms_tags %}
+<head>
+<link href="{% static 'css/post.css' %}" rel="stylesheet">
+</head>
+<br><br><br>
+<div class='container'>
+<nav class="nav nav-pills nav-justified ">
+  <a class="nav-item nav-link " href="{% url 'dziennik_zdarzen_posty'%}">Dodawane posty</a>
+  <a class="nav-item nav-link " href="{% url 'ukryte_posty' %}">Ukryte posty</a>
+  <a class="nav-item nav-link active" href="{% url 'dziennik_zdarzen' %}">Dziennik zdarzeń</a>
+</nav>
+{% if messages %}
+<br>
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+<br><br><br>
+<div class="table-responsive text-nowrap">
+    <h2></h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"> Zdarzenie</th>
+        <th scope="col">Data zdarzenia</th>
+        <div>
+        <th><button  href=""  data-toggle="modal" data-target="#PopUp" type="button" class="btn btn-danger"><i class="far fa-minus-square red"></i></button></a></th>
+              </div>
+              <div class="modal" tabindex="-1" role="dialog" id="PopUp">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">UWAGA</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Czy jesteś pewny że chcesz usunać wszystkie wpisy z dziennika <br>
+              zdarzeń?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Nie</button>
+              <a href="{% url 'usuniete_zdarzenie' %}"><button type="submit" class="btn btn-danger">Tak, usuń</button></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </tr>
+    </thead>
+    <tbody>
+
+{% for zdarzenie in zdarzenia %}
+      <tr>
+        <th scope="row">{{ zdarzenie}} </th> 
+        {% language 'pl' %}
+        <td>{{ zdarzenie.czas }}</td>
+        {% endlanguage %}
+        {% if zdarzenie.like == 1 or zdarzenie.like == 2 or zdarzenie.post == 2 or zdarzenie.komentarz == 2  %}
+        <td><a href="{% url 'pojedynczy_post' zdarzenie.post_id.id %}"><button type="button" class="btn btn-info">Zobacz</button></a></td>
+        {% else %}
+        <td></td>
+        {% endif %} 
+		{% endfor %}
+</div>
+{% endblock %}
+

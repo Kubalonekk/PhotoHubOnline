@@ -1,0 +1,26 @@
+{% extends 'PhotoHubAPP/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container">
+<br><br><br>
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+<form method = "post" enctype="multipart/form-data"> 
+  {% csrf_token %}
+  {{ form|crispy}}
+  <button class="btn btn-primary btn-md my-0 p" type='submit'>Dodaj</button>
+</form>
+
+</div>
+
+{% endblock %}

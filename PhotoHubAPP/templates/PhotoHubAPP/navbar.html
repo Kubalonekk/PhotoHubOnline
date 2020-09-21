@@ -1,0 +1,61 @@
+
+{% load static %}
+{% block content %}
+<!--Navbar -->
+<nav class="mb-1 navbar fixed-top navbar-expand-lg navbar-dark orange lighten-1">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-555"
+    aria-controls="navbarSupportedContent-555" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'index' %}">Home
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+      {% if request.user.is_authenticated %}
+        <a class="nav-link" href="{% url 'account' %}">Ustawienia konta</a>
+      {% else %}
+      {% endif%}
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'followers' %}">Obserwujący</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'powiadomienia' %}">Powiadomienia <sup><span class="badge badge-pill badge-warning">{{request.session.licznik}}</span></a>
+      </li>
+    </ul>
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+      <li class="nav-item avatar">
+        <a class="nav-link p-0" href="#">
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+          <a  href="{% url 'your_profile' %}" class="nav-link ">Witaj {{request.user.userprofile.imie}} {{request.user.userprofile.nazwisko}}</a> 
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout' %}">Wyloguj</a>
+          </li>
+          
+          <img src="{{request.user.userprofile.zdjecie_profilowe.url}}" class="rounded-circle z-depth-0"
+            alt="avatar image" height="35">
+          {% else %}
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Zaloguj się</a>
+          </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'register' %}">Zarejestruj się</a>
+          </li>
+          <img src="{% static 'images/logo_tlo.png' %}" class="rounded-circle z-depth-0"
+            alt="avatar image" height="35">
+          {% endif %}
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<!--/.Navbar -->
+
+{% endblock%}

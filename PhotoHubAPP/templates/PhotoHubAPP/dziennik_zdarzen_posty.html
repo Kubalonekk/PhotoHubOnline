@@ -1,0 +1,79 @@
+{% extends 'PhotoHubAPP/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+{% load crispy_forms_tags %}
+<head>
+<link href="{% static 'css/post.css' %}" rel="stylesheet">
+</head>
+<br><br><br>
+<div class='container'>
+<nav class="nav nav-pills nav-justified ">
+  <a class="nav-item nav-link active" href="{% url 'followers'%}">Dodawane posty</a>
+  <a class="nav-item nav-link " href="{% url 'ukryte_posty' %}">Ukryte posty</a>
+  <a class="nav-item nav-link
+  " href="{% url 'dziennik_zdarzen' %}">Dziennik zdarzeń</a>
+</nav>
+{% if messages %}
+<br>
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+<br><br><br>
+<div class="table-responsive text-nowrap">
+    <h2></h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Tytuł</th>
+        <th scope="col">Data dodania</th>
+        <th scope="col">Lajki</th>
+        <th scope="col">Komentarze</th>
+        <th scope="col">Zobacz</th>
+        <th scope="col">Usuń</th>
+		<th scope="col"></th>
+		
+
+      </tr>
+    </thead>
+    <tbody>
+
+{% for post in zdarzenia_posty %}
+      <tr>
+        <th scope="row">{{ post.tytul }} </th> 
+        {% language 'pl' %}
+        <td>{{ post.data_stworzenia }}</td>
+        {% endlanguage %}
+        <td>{{ post.like_counter }}</td>
+		    <td>{{ post.komentarze_counter }}
+		<td><a href="{% url 'pojedynczy_post' post.id %}"><button type="button" class="btn btn-info">Zobacz post</button></a></td>
+    <div>
+        <td>
+        <button  href=""  data-toggle="modal" data-target="#object{{post.id }}" type="button" class="btn btn-danger"><i class="far fa-minus-square red"></i></button></a>
+        </td>
+              </div>
+              <div class="modal" tabindex="-1" role="dialog" id="object{{ post.id }}">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">UWAGA</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Czy jesteś pewny że chcesz usunać trwale <br>
+               post: {{ post.tytul }}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" data-dismiss="modal">Nie</button>
+              <a href="{% url 'usun_post' post.id %}"><button type="submit" class="btn btn-danger">Tak, usuń</button></a> 
+		{% endfor %}
+</div>
+{% endblock %}
+

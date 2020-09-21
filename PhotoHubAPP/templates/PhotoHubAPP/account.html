@@ -1,0 +1,63 @@
+{% extends 'PhotoHubAPP/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<head>
+
+<style>
+	.profile-pic{
+		max-width: 200px;
+		max-height:200px;
+		margin: 0 auto;
+		border-radius: 50%;
+	}
+</style>
+
+
+<br><br><br>
+<div class="row">
+	<div class="col-md-3">
+		<div class="card card-body">
+			<a class="btn btn-warning" href="{% url 'index' %}"> &#8592; Wróc do menu głównego</a>
+			<hr>
+			<h3 style="text-align: center">Ustawienia konta</h3>
+			<hr>
+			<img class="profile-pic" src="{{request.user.userprofile.zdjecie_profilowe.url}}" >
+		
+		</div>
+	</div>
+	<div class="col-md-9">
+		<div class="card card-body">
+			
+			<form method="POST" action="" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{form|crispy}}
+		
+			<button class="btn btn-primary btn-md my-0 p" type='submit'>Zatwierdź zmiany</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} <body>
+<br><br><br><br>
+<div class="container">
+<form method="POST" enctype="multipart/form-data">
+{% csrf_token %}
+{{form|crispy}}
+<button class="btn btn-primary btn-md my-0 p" type='submit'>Zatwierdź zmiany</button>
+</form>
+</div>
+</body>
+</html>                             {% endcomment %}
+{% endblock %}

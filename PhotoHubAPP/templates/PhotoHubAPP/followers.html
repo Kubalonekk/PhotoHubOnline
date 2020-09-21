@@ -1,0 +1,68 @@
+{% extends 'PhotoHubAPP/base.html' %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+<head>
+<link href="{% static 'css/post.css' %}" rel="stylesheet">
+</head>
+<br><br><br>
+<div class='container'>
+<nav class="nav nav-pills nav-justified ">
+  <a class="nav-item nav-link active " href="{% url 'followers'%}">Szukaj nowych obserwujących</a>
+  <a class="nav-item nav-link" href="{% url 'yours_followers'%}">Obserwowani</a>
+  <a class="nav-item nav-link" href="{% url 'followers_list' %}">Obserwujący</a>
+</nav>
+{% if messages %}
+<br>
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+<br><br><br>
+<form  method="get">
+<div class="form-row">
+      <div class="form-group col-md-4 mb-0">
+        {{ MyFilter.form.imie|as_crispy_field}}  
+      </div>
+      <div class="form-group col-md-4 mb-0">
+      {{ MyFilter.form.nazwisko|as_crispy_field}}  
+      </div>
+	  <div>
+	  <button type="submit" class="btn btn-success btn-md">Szukaj</button>
+	  </div>
+</div>
+</form>
+<div class="table-responsive text-nowrap">
+    <h2>Profile</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Imię</th>
+        <th scope="col">Nazwisko</th>
+        <th scope="col">Data założenia</th>
+		<th scope="col">Follow</th>
+		
+
+      </tr>
+    </thead>
+    <tbody>
+ {% comment %} {{request.user.userprofile.obserwowani_set.all }} {% endcomment %}
+
+    {% for profile in profiles %}
+      <tr>
+        <th scope="row"> <img src="{{ profile.zdjecie_profilowe.url}}" class="rounded-circle z-depth-0" alt="avatar image" height="35"></th> 
+        <td>{{ profile.imie }}</td>
+        <td>{{ profile.nazwisko }}</td>
+        {% language 'pl' %}
+		<td>{{ profile.data_zalozenia|date:"d M, Y" }}
+        {% endlanguage%}
+		<td><a href="{% url 'profil_detail' profile.id %}"><button type="button" class="btn btn-info">Zobacz profil</button></a></td> 
+		{% endfor %}
+</div>
+{% endblock %}

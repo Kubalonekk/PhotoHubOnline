@@ -1,0 +1,52 @@
+{% extends 'PhotoHubAPP/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+{% load crispy_forms_tags %}
+<head>
+<link href="{% static 'css/post.css' %}" rel="stylesheet">
+</head>
+<br><br><br>
+<div class='container'>
+<nav class="nav nav-pills nav-justified ">
+  <a class="nav-item nav-link " href="{% url 'dziennik_zdarzen_posty'%}">Dodawane posty</a>
+  <a class="nav-item nav-link active" href="{% url 'ukryte_posty' %}">Ukryte posty</a>
+  <a class="nav-item nav-link " href="{% url 'dziennik_zdarzen' %}">Dziennik zdarzeń</a>
+</nav>
+{% if messages %}
+<br>
+<ul class="messages">
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
+</ul>
+{% endif %}
+<br><br><br>
+<div class="table-responsive text-nowrap">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Tytuł</th>
+        <th scope="col">Autor</th>
+        <th scope="col">Pokaż post</th>
+     </tr>
+    </thead>
+    <tbody>
+
+    {% for post in posty %}
+    
+      <tr>
+        <th scope="row"><a href="{% url 'pojedynczy_post' post.id %}">{{ post.tytul }}</a></th> 
+        <th><a href="{% url 'profil_detail' post.userprofile.id %}">{{ post.userprofile.imie}} {{ post.userprofile.nazwisko}}</th>
+        <th><a href="{% url 'odkryj_post' post.id %}"><button type="button" class="btn btn-info">Przestań ukrywać</button></a></th>
+      {% endfor %}
+      </tr>
+    </tbody>
+    </table>
+    
+</div>
+
+{% endblock %}
+

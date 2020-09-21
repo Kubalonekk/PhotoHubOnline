@@ -1,0 +1,23 @@
+{% extends 'PhotoHubAPP/base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<head>
+<link href="{% static 'css/register.css' %}" rel="stylesheet">
+</head>
+<br><br>
+<body>
+<div class="signup-form">
+    <form action="" method="post">
+		{% csrf_token %}
+	{% language 'pl' %}
+		{{ form|crispy }}
+	{% endlanguage %}
+	<button class="btn btn-primary btn-md my-0 p" type='submit'>Zarejestruj</button>
+    </form>
+	<div class="text-center">Jeśli nie masz konta zarejestruj się<a href="#">Sign in</a></div>
+</div>
+</body>
+</html>                            
+{% endblock %}

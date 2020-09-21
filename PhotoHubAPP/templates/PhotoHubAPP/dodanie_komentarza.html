@@ -1,0 +1,20 @@
+{% extends 'PhotoHubAPP/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+<head>
+<br>
+<br>
+<link href="{% static 'css/register.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="signup-form">
+    <form method="post">
+		{% csrf_token %}
+		{{ form|crispy }}
+	<button class="btn btn-primary btn-md my-0 p" type='submit'>Dodaj</button>
+    </form>
+</div>
+</body>
+</html>                            
+{% endblock %}
